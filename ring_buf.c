@@ -15,7 +15,7 @@ ring_buf_t *ring_buf_create(size_t size)
         return NULL;
     }
 
-    rb = malloc(sizeof(ring_buf_t) + size);
+    rb = (ring_buf_t *)malloc(sizeof(ring_buf_t) + size);
     if(!rb){
         return rb;
     }
@@ -55,7 +55,7 @@ size_t get_left_size(ring_buf_t *rb)
     return (rb->size - get_data_size(rb) -1);
 }
 
-size_t ring_buf_write_data(ring_buf_t *rb, char *data, size_t len)
+size_t ring_buf_write_data(ring_buf_t *rb, const char *data, size_t len)
 {
     size_t cp_right = 0;
     size_t cp_left = 0;
@@ -65,7 +65,7 @@ size_t ring_buf_write_data(ring_buf_t *rb, char *data, size_t len)
         return 0;
     }
 
-    lef_size = get_left_size(rb)
+    lef_size = get_left_size(rb);
 
     if(lef_size < len){
         return 0;
