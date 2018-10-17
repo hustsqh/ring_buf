@@ -99,6 +99,25 @@ TEST(ring_buf, read_write_aroud){
 }
 
 
+TEST(ring_buf, read_write_exception){
+    ring_buf_t *rb = ring_buf_create(MAX_BUF_LEN);
+    const char *str = "0123456789";
+    int write_n = 0, read_n = 0;
+    char *read_buf = NULL;
+    int i = 0;
+
+    write_n = (MAX_BUF_LEN/ strlen(str));
+
+    for(i = 0; i < write_n; i++){
+        if(i != (write_n - 1)){
+            EXPECT_EQ(ring_buf_write_data(rb, str, strlen(str)), strlen(str));
+        }else{
+            EXPECT_EQ(ring_buf_write_data(rb, str, strlen(str)), 0);
+        }
+    }
+
+    EXPECT_EQ(get_data_size(rb), (write_n - 1) * strlen(str));
+}
 
 
 
